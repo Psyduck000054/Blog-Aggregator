@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/Psyduck000054/Blog-Aggregator/internal/config"
 )
@@ -12,16 +13,31 @@ func main() {
 	if err != nil {
 		log.Fatalf("error reading config: %v", err)
 	}
-	fmt.Printf("Read config: %+v\n", cfg)
 
-	err = cfg.SetUser("lane")
-	if err != nil {
-		log.Fatalf("couldn't set current user: %v", err)
-	}
+	var s state
+	s.ConfigPointer = &cfg
 
-	cfg, err = config.Read()
-	if err != nil {
-		log.Fatalf("error reading config: %v", err)
+	var c commands
+	c.Map = make(map[string]func(*state, command) error)
+
+	c.register("login", handlerLogin)
+
+	if len(os.Args) < 2 {
+		fmt.Print(fmt.Errorf("no argument\n"))
+		os.Exit(1)
+	} else {
+		commandName := os.Args[1]
+		commandArgs := os.Args[2:]
+
+		cmd := command{
+			Name:      commandName,
+			Arguments: commandArgs,
+		}
+
+		err := c.run(&s, cmd)
+		if err != nil {
+			fmt.Print(fmt.Errorf("failed run\n"))
+			os.Exit(1)
+		}
 	}
-	fmt.Printf("Read config again: %+v\n", cfg)
 }
