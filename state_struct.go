@@ -2,8 +2,10 @@ package main
 
 import (
 	"github.com/Psyduck000054/Blog-Aggregator/internal/config"
+	"github.com/Psyduck000054/Blog-Aggregator/internal/database"
 )
 
 type state struct {
-	ConfigPointer *config.Config
+	db_ptr  *database.Queries
+	cfg_ptr *config.Config
 }

@@ -1,26 +1,48 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/Psyduck000054/Blog-Aggregator/internal/config"
+	"github.com/Psyduck000054/Blog-Aggregator/internal/database"
+	_ "github.com/lib/pq"
 )
 
 func main() {
+
+	// ---------------------------------------------------------
+	// READ CONFIG
+	// ---------------------------------------------------------
 	cfg, err := config.Read()
 	if err != nil {
 		log.Fatalf("error reading config: %v", err)
 	}
 
+	// ---------------------------------------------------------
+	// STATE INITIALIZATION
+	// ---------------------------------------------------------
+
 	var s state
-	s.ConfigPointer = &cfg
+	s.cfg_ptr = &cfg
+
+	// database connection
+	db, err := sql.Open("postgres", cfg.DB_URL)
+	dbQueries := database.New(db)
+
+	s.db_ptr = dbQueries
 
 	var c commands
 	c.Map = make(map[string]func(*state, command) error)
 
+	// ---------------------------------------------------------
+	// HANDLERS
+	// ---------------------------------------------------------
+
 	c.register("login", handlerLogin)
+	c.register("register", handlerRegister)
 
 	if len(os.Args) < 2 {
 		fmt.Print(fmt.Errorf("no argument\n"))
@@ -36,7 +58,7 @@ func main() {
 
 		err := c.run(&s, cmd)
 		if err != nil {
-			fmt.Print(fmt.Errorf("failed run\n"))
+			fmt.Println(err)
 			os.Exit(1)
 		}
 	}
