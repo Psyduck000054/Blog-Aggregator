@@ -9,8 +9,8 @@ import (
 	"github.com/google/uuid"
 )
 
+// add a new feed to the feeds DB. 2 params needed: name and url
 func handlerAddFeed(s *state, cmd command) error {
-	// 2 arguments needed: name and url
 	if len(cmd.Arguments) < 2 {
 		return fmt.Errorf("Not enough arguments")
 	}
@@ -32,6 +32,11 @@ func handlerAddFeed(s *state, cmd command) error {
 	user.UserID = currentUser.ID
 
 	fmt.Printf("%+v", user)
+
+	_, err1 := s.db_ptr.CreateFeed(ctx, user)
+	if err1 != nil {
+		return err1
+	}
 
 	return nil
 }
