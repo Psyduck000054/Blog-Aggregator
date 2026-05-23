@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/Psyduck000054/Blog-Aggregator/functions"
 	"github.com/Psyduck000054/Blog-Aggregator/internal/config"
 	"github.com/Psyduck000054/Blog-Aggregator/internal/database"
 	_ "github.com/lib/pq"
@@ -25,29 +26,29 @@ func main() {
 	// STATE INITIALIZATION
 	// ---------------------------------------------------------
 
-	var s state
-	s.cfg_ptr = &cfg
+	var s functions.State
+	s.Cfg_ptr = &cfg
 
 	// database connection
 	db, err := sql.Open("postgres", cfg.DB_URL)
 	dbQueries := database.New(db)
 
-	s.db_ptr = dbQueries
+	s.Db_ptr = dbQueries
 
-	var c commands
-	c.Map = make(map[string]func(*state, command) error)
+	var c functions.Commands
+	c.Map = make(map[string]func(*functions.State, functions.Command) error)
 
 	// ---------------------------------------------------------
 	// HANDLERS
 	// ---------------------------------------------------------
 
-	c.register("login", handlerLogin)
-	c.register("register", handlerRegister)
-	c.register("reset", handlerReset)
-	c.register("users", handlerGetUsers)
-	c.register("agg", handlerAgg)
-	c.register("addfeed", handlerAddFeed)
-	c.register("feeds", handlerListFeeds)
+	c.Register("login", functions.HandlerLogin)
+	c.Register("register", functions.HandlerRegister)
+	c.Register("reset", functions.HandlerReset)
+	c.Register("users", functions.HandlerGetUsers)
+	c.Register("agg", functions.HandlerAgg)
+	c.Register("addfeed", functions.HandlerAddFeed)
+	c.Register("feeds", functions.HandlerListFeeds)
 
 	if len(os.Args) < 2 {
 		fmt.Print(fmt.Errorf("no argument\n"))
@@ -56,12 +57,12 @@ func main() {
 		commandName := os.Args[1]
 		commandArgs := os.Args[2:]
 
-		cmd := command{
+		cmd := functions.Command{
 			Name:      commandName,
 			Arguments: commandArgs,
 		}
 
-		err := c.run(&s, cmd)
+		err := c.Run(&s, cmd)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)

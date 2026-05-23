@@ -1,13 +1,13 @@
-package main
+package functions
 
 import (
 	"context"
 	"fmt"
 )
 
-func handlerReset(s *state, cmd command) error {
+func HandlerReset(s *State, cmd Command) error {
 	ctx := context.Background()
-	err := s.db_ptr.DeleteUsers(ctx)
+	err := s.Db_ptr.DeleteUsers(ctx)
 	if err == nil {
 		fmt.Println("reset success!")
 	} else {

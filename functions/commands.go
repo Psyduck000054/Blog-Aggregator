@@ -1,10 +1,10 @@
-package main
+package functions
 
 import (
 	"fmt"
 )
 
-func (c *commands) run(s *state, cmd command) error {
+func (c *Commands) Run(s *State, cmd Command) error {
 	value, ok := c.Map[cmd.Name]
 	if !ok {
 		return fmt.Errorf("no command found")
@@ -15,6 +15,6 @@ func (c *commands) run(s *state, cmd command) error {
 	return err
 }
 
-func (c *commands) register(name string, f func(s *state, cmd command) error) {
+func (c *Commands) Register(name string, f func(s *State, cmd Command) error) {
 	c.Map[name] = f
 }

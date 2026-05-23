@@ -1,4 +1,4 @@
-package main
+package functions
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func handlerRegister(s *state, cmd command) error {
+func HandlerRegister(s *State, cmd Command) error {
 	// ensure there is a name in the input
 	if len(cmd.Arguments) == 0 {
 		return fmt.Errorf("No username")
@@ -24,12 +24,12 @@ func handlerRegister(s *state, cmd command) error {
 	user.UpdatedAt = time.Now()
 	user.Name = cmd.Arguments[0]
 
-	createdUser, err := s.db_ptr.CreateUser(ctx, user)
+	createdUser, err := s.Db_ptr.CreateUser(ctx, user)
 	if err != nil {
 		return err
 	}
 
-	err = s.cfg_ptr.SetUser(user.Name)
+	err = s.Cfg_ptr.SetUser(user.Name)
 	if err != nil {
 		return err
 	}

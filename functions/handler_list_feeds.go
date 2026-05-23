@@ -1,14 +1,14 @@
-package main
+package functions
 
 import (
 	"context"
 	"fmt"
 )
 
-func handlerListFeeds(s *state, cmd command) error {
+func HandlerListFeeds(s *State, cmd Command) error {
 	ctx := context.Background()
 
-	db, err := s.db_ptr.GetFeeds(ctx)
+	db, err := s.Db_ptr.GetFeeds(ctx)
 	if err != nil {
 		return err
 	}

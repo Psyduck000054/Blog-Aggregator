@@ -1,4 +1,4 @@
-package main
+package functions
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"github.com/Psyduck000054/Blog-Aggregator/internal/rss"
 )
 
-func handlerAgg(s *state, cmd command) error {
+func HandlerAgg(s *State, cmd Command) error {
 	link := "https://www.wagslane.dev/index.xml"
 	ctx := context.Background()
 

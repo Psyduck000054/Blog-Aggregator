@@ -1,4 +1,4 @@
-package main
+package functions
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 )
 
 // add a new feed to the feeds DB. 2 params needed: name and url
-func handlerAddFeed(s *state, cmd command) error {
+func HandlerAddFeed(s *State, cmd Command) error {
 	if len(cmd.Arguments) < 2 {
 		return fmt.Errorf("Not enough arguments")
 	}
@@ -24,7 +24,7 @@ func handlerAddFeed(s *state, cmd command) error {
 	user.Name = cmd.Arguments[0]
 	user.Url = cmd.Arguments[1]
 
-	currentUser, err := s.db_ptr.GetUser(ctx, s.cfg_ptr.CurrentUserName)
+	currentUser, err := s.Db_ptr.GetUser(ctx, s.Cfg_ptr.CurrentUserName)
 	if err != nil {
 		return err
 	}
@@ -33,7 +33,7 @@ func handlerAddFeed(s *state, cmd command) error {
 
 	fmt.Printf("%+v", user)
 
-	_, err1 := s.db_ptr.CreateFeed(ctx, user)
+	_, err1 := s.Db_ptr.CreateFeed(ctx, user)
 	if err1 != nil {
 		return err1
 	}

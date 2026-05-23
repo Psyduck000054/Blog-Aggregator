@@ -1,20 +1,20 @@
-package main
+package functions
 
 import (
 	"context"
 	"fmt"
 )
 
-func handlerGetUsers(s *state, cmd command) error {
+func HandlerGetUsers(s *State, cmd Command) error {
 	ctx := context.Background()
-	db, err := s.db_ptr.GetUsers(ctx)
+	db, err := s.Db_ptr.GetUsers(ctx)
 	if err != nil {
 		return err
 	}
 
 	for _, user := range db {
 		fmt.Printf("* %s", user.Name)
-		if user.Name == s.cfg_ptr.CurrentUserName {
+		if user.Name == s.Cfg_ptr.CurrentUserName {
 			fmt.Print(" (current)")
 		}
 		fmt.Print("\n")
