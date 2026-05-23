@@ -45,6 +45,7 @@ func main() {
 	c.register("register", handlerRegister)
 	c.register("reset", handlerReset)
 	c.register("users", handlerGetUsers)
+	c.register("agg", handlerAgg)
 
 	if len(os.Args) < 2 {
 		fmt.Print(fmt.Errorf("no argument\n"))
