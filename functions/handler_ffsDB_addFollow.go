@@ -11,17 +11,12 @@ import (
 
 // input  | 1 param: the feed's url
 // output | create a new user-feed link as a datarow in FFs DB
-func HandlerAddFollow(s *State, cmd Command) error {
+func HandlerAddFollow(s *State, cmd Command, currentUser database.User) error {
 	ctx := context.Background()
 
 	// no argument: go run . follow
 	if len(cmd.Arguments) < 1 {
 		return fmt.Errorf("need a feed url argument")
-	}
-
-	currentUser, err := s.Db_ptr.GetUser(ctx, s.Cfg_ptr.CurrentUserName)
-	if err != nil {
-		return err
 	}
 
 	currentFeed, err := s.Db_ptr.GetFeedFromURL(ctx, cmd.Arguments[0])

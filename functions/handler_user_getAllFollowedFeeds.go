@@ -3,11 +3,13 @@ package functions
 import (
 	"context"
 	"fmt"
+
+	"github.com/Psyduck000054/Blog-Aggregator/internal/database"
 )
 
 // input  | 0 param
 // output | the name of all feeds that the current user follows
-func HandlerGetAllFollowedFeeds(s *State, cmd Command) error {
+func HandlerGetAllFollowedFeeds(s *State, cmd Command, currentUser database.User) error {
 	ctx := context.Background()
 
 	currentUser, err := s.Db_ptr.GetUser(ctx, s.Cfg_ptr.CurrentUserName)

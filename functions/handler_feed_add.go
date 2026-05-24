@@ -11,7 +11,7 @@ import (
 
 // input  | 2 param: feed name and feed url
 // output | add the feed as a datarow in feeds DB
-func HandlerAddFeed(s *State, cmd Command) error {
+func HandlerAddFeed(s *State, cmd Command, currentUser database.User) error {
 	if len(cmd.Arguments) < 2 {
 		return fmt.Errorf("Not enough arguments")
 	}
@@ -24,11 +24,6 @@ func HandlerAddFeed(s *State, cmd Command) error {
 	feed.UpdatedAt = time.Now()
 	feed.Name = cmd.Arguments[0]
 	feed.Url = cmd.Arguments[1]
-
-	currentUser, err := s.Db_ptr.GetUser(ctx, s.Cfg_ptr.CurrentUserName)
-	if err != nil {
-		return err
-	}
 
 	feed.UserID = currentUser.ID
 
@@ -44,7 +39,7 @@ func HandlerAddFeed(s *State, cmd Command) error {
 	}
 
 	// create a user-feed link as a datarow in FFs DB
-	err2 := HandlerAddFollow(s, feedCommand)
+	err2 := HandlerAddFollow(s, feedCommand, currentUser)
 	if err2 != nil {
 		return err2
 	}

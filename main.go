@@ -47,10 +47,10 @@ func main() {
 	c.Register("reset", functions.HandlerReset)
 	c.Register("users", functions.HandlerGetUsers)
 	c.Register("agg", functions.HandlerAgg)
-	c.Register("addfeed", functions.HandlerAddFeed)
+	c.Register("addfeed", functions.MiddlewareLoggedIn(functions.HandlerAddFeed))
 	c.Register("feeds", functions.HandlerListFeeds)
-	c.Register("follow", functions.HandlerAddFollow)
-	c.Register("following", functions.HandlerGetAllFollowedFeeds)
+	c.Register("follow", functions.MiddlewareLoggedIn(functions.HandlerAddFollow))
+	c.Register("following", functions.MiddlewareLoggedIn(functions.HandlerGetAllFollowedFeeds))
 
 	if len(os.Args) < 2 {
 		fmt.Print(fmt.Errorf("no argument\n"))
