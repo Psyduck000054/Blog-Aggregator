@@ -51,6 +51,7 @@ func main() {
 	c.Register("feeds", functions.HandlerListFeeds)
 	c.Register("follow", functions.MiddlewareLoggedIn(functions.HandlerAddFollow))
 	c.Register("following", functions.MiddlewareLoggedIn(functions.HandlerGetAllFollowedFeeds))
+	c.Register("unfollow", functions.MiddlewareLoggedIn(functions.HandlerDeleteFollowedFeed))
 
 	if len(os.Args) < 2 {
 		fmt.Print(fmt.Errorf("no argument\n"))
