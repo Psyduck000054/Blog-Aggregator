@@ -49,6 +49,8 @@ func main() {
 	c.Register("agg", functions.HandlerAgg)
 	c.Register("addfeed", functions.HandlerAddFeed)
 	c.Register("feeds", functions.HandlerListFeeds)
+	c.Register("follow", functions.HandlerAddFollow)
+	c.Register("following", functions.HandlerGetAllFollowedFeeds)
 
 	if len(os.Args) < 2 {
 		fmt.Print(fmt.Errorf("no argument\n"))
@@ -61,6 +63,10 @@ func main() {
 			Name:      commandName,
 			Arguments: commandArgs,
 		}
+
+		// ---------------------------------------------------------
+		// EXECUTION
+		// ---------------------------------------------------------
 
 		err := c.Run(&s, cmd)
 		if err != nil {

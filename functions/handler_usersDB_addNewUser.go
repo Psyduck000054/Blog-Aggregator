@@ -9,6 +9,8 @@ import (
 	"github.com/google/uuid"
 )
 
+// input  | 1 param: username
+// output | create a new user as a datarow in users DB
 func HandlerRegister(s *State, cmd Command) error {
 	// ensure there is a name in the input
 	if len(cmd.Arguments) == 0 {

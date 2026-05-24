@@ -5,6 +5,10 @@ import (
 	"fmt"
 )
 
+// input  | 1 param: username
+// output | check if the user is in users DB
+//
+//	and if yes, make the user the current user
 func HandlerLogin(s *State, cmd Command) error {
 	if len(cmd.Arguments) == 0 {
 		return fmt.Errorf("No username")

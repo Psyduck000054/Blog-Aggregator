@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// input  | 0 param
+// output | delete everything in users DB
 func HandlerReset(s *State, cmd Command) error {
 	ctx := context.Background()
 	err := s.Db_ptr.DeleteUsers(ctx)

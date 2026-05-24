@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// input  | 0 param
+// output | state all users in users DB and mark the current one
 func HandlerGetUsers(s *State, cmd Command) error {
 	ctx := context.Background()
 	db, err := s.Db_ptr.GetUsers(ctx)
