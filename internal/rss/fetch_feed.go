@@ -37,9 +37,9 @@ func FetchFeed(ctx context.Context, feedURL string) (*RSSFeed, error) {
 	// decode escaped html entities in title and desc
 	feed.Channel.Title = html.UnescapeString(feed.Channel.Title)
 	feed.Channel.Description = html.UnescapeString(feed.Channel.Description)
-	for _, item := range feed.Channel.Item {
-		item.Title = html.UnescapeString(item.Title)
-		item.Description = html.UnescapeString(item.Description)
+	for index, item := range feed.Channel.Item {
+		feed.Channel.Item[index].Title = html.UnescapeString(item.Title)
+		feed.Channel.Item[index].Description = html.UnescapeString(item.Description)
 	}
 
 	return feed, nil

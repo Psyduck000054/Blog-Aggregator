@@ -39,7 +39,7 @@ func HandlerAddFollow(s *State, cmd Command, currentUser database.User) error {
 	}
 
 	fmt.Println("Follow Request Success!")
-	fmt.Printf("user %s has followed feed %s", dataRow.UserName, dataRow.FeedName)
+	fmt.Printf("user %s has followed feed %s\n", dataRow.UserName, dataRow.FeedName)
 
 	return nil
 }
