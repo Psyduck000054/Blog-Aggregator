@@ -13,7 +13,7 @@ import (
 // output | add the feed as a datarow in feeds DB
 func HandlerAddFeed(s *State, cmd Command, currentUser database.User) error {
 	if len(cmd.Arguments) < 2 {
-		return fmt.Errorf("Not enough arguments")
+		return fmt.Errorf("Not enough arguments, need 2: [name] and [url]")
 	}
 
 	ctx := context.Background()
