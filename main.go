@@ -53,10 +53,11 @@ func main() {
 	c.Register("following", functions.MiddlewareLoggedIn(functions.HandlerGetAllFollowedFeeds))
 	c.Register("unfollow", functions.MiddlewareLoggedIn(functions.HandlerDeleteFollowedFeed))
 	c.Register("browse", functions.MiddlewareLoggedIn(functions.HandlerBrowse))
+	c.Register("help", functions.HandlerHelp)
 
 	if len(os.Args) < 2 {
-		fmt.Print(fmt.Errorf("no argument\n"))
-		os.Exit(1)
+		_ = c.Run(&s, functions.Command{Name: "help"})
+		os.Exit(0)
 	} else {
 		commandName := os.Args[1]
 		commandArgs := os.Args[2:]
